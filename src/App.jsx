@@ -14,8 +14,14 @@ function App() {
 
   let addItem = () => {
     if (item.trim() === "") return;
-    setList([...list, item]);
+    setList([...list, {nome: item, comprado: false}]);
     setItem("");
+  };
+
+  let toggleComprado = (index) => {
+    let novaLista = [...list];
+    novaLista[index].comprado = !novaLista[index].comprado;
+    setList(novaLista);
   };
 
   let removeItem = (index) => {
@@ -46,8 +52,10 @@ function App() {
 
         <ul className='space-y-2'>
           {list.map((item, index) => (
-            <li key={index} className='flex justify-between items-center bg-gray-200 rounded-lg px-3 py-2'>
-              <span>{item}</span>
+            <li key={index}  className={`flex justify-between items-center rounded-lg px-3 py-2 cursor-pointer ${item.comprado ? 'bg-green-200 line-through text-gray-500' : 'bg-gray-200'
+  }`} >
+              <span
+              className='flex-1 cursor-pointer' onClick={() => toggleComprado(index)}>{item.nome}</span>
               <button
                 onClick={() => removeItem(index)}
                 className='text-red-500 hover:text-red-700'
